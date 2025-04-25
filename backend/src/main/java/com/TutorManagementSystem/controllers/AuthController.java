@@ -1,0 +1,33 @@
+package com.TutorManagementSystem.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.TutorManagementSystem.model.User;
+import com.TutorManagementSystem.service.UserService;
+import com.TutorManagementSystem.dto.LoginRequest;
+import com.TutorManagementSystem.dto.LoginResponse;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody User user) {
+        return ResponseEntity.ok(userService.register(user));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        LoginResponse response = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<User> getProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findById(id));
+    }
+}
