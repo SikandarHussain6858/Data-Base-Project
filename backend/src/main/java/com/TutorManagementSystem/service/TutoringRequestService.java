@@ -1,8 +1,8 @@
 package com.TutorManagementSystem.service;
 
 
-import com.TutorManagementSystem.models.TutoringRequest;
-import com.TutorManagementSystem.repositories.TutoringRequestRepository;
+import com.TutorManagementSystem.model.TutoringRequest;
+import com.TutorManagementSystem.repository.TutoringRequestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;

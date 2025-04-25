@@ -19,4 +19,12 @@ public class Feedback {
     private LocalDateTime submittedAt;
 
     // Constructors, getters, setters omitted for brevity
+
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public void setSubmittedAt(LocalDateTime submittedAt) {
+        this.submittedAt = submittedAt;
+    }
 }

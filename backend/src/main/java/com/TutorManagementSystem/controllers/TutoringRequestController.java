@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.TutorManagementSystem.model.Feedback;
-import com.TutorManagementSystem.service.FeedbackService;
+import com.TutorManagementSystem.service.FeedBackService;
+import com.TutorManagementSystem.service.TutoringRequestService;
+import com.TutorManagementSystem.model.TutoringRequest;
 
 import java.util.List;
 

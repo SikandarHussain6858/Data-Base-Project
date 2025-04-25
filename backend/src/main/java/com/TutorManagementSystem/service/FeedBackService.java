@@ -1,14 +1,14 @@
 package com.TutorManagementSystem.service;
 
-import com.TutorManagementSystem.models.Feedback;
-import com.TutorManagementSystem.repositories.FeedbackRepository;
+import com.TutorManagementSystem.model.Feedback;
+import com.TutorManagementSystem.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class FeedbackService {
+public class FeedBackService {
     @Autowired
     private FeedbackRepository repo;
 

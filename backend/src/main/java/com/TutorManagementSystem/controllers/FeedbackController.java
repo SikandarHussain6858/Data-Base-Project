@@ -6,14 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.TutorManagementSystem.model.Feedback;
-import com.TutorManagementSystem.service.FeedbackService;
+import com.TutorManagementSystem.service.FeedBackService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class FeedbackController {
 
     @Autowired
-    private FeedbackService feedbackService;
+    private FeedBackService feedbackService;
 
     // POST /feedback → Submit feedback after job is done
     @PostMapping("/feedback")

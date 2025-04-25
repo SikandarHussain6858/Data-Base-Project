@@ -1,8 +1,9 @@
 package com.TutorManagementSystem.service;
+import java.util.List;
 
-import com.TutorManagementSystem.models.Job;
-import com.TutorManagementSystem.repositories.JobRepository;
-import com.TutorManagementSystem.repositories.TutoringRequestRepository;
+import com.TutorManagementSystem.model.Job;
+import com.TutorManagementSystem.repository.JobRepository;
+import com.TutorManagementSystem.repository.TutoringRequestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
@@ -30,5 +31,9 @@ public class JobService {
 
         job.setAssignedAt(LocalDateTime.now());
         return jobRepo.save(job);
+    }
+
+    public List<Job> getAllJobs() {
+        return jobRepo.findAll(); // fetch all jobs from DB
     }
 }
