@@ -8,41 +8,53 @@ import java.time.LocalDateTime;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "job_id", unique = true)
     private Long id;
-
-    private Long tutorId;
 
     @ManyToOne
     @JoinColumn(name = "request_id")
     private TutoringRequest request;
 
-    public TutoringRequest getRequest() {
-        return request;
-    }
+    @Column(name = "tutor_id")
+    private Long tutorId;
 
-    public void setRequest(TutoringRequest request) {
-        this.request = request;
-    }
+    @Column(name = "student_id")
+    private Long studentId;
+    
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+    
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+    
+    private String status;
 
+    @Column(name = "assigned_at")
     private LocalDateTime assignedAt;
 
-    // Constructors, getters, setters omitted for brevity
-    // Getter for id
-    public Long getId() {
-        return id;
-    }
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public TutoringRequest getRequest() { return request; }
+    public void setRequest(TutoringRequest request) { this.request = request; }
+    
+    public Long getTutorId() { return tutorId; }
+    public void setTutorId(Long tutorId) { this.tutorId = tutorId; }
+    
+    public Long getStudentId() { return studentId; }
+    public void setStudentId(Long studentId) { this.studentId = studentId; }
+    
+    public LocalDateTime getStartTime() { return startTime; }
+    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+    
+    public LocalDateTime getEndTime() { return endTime; }
+    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    // Setter for id (optional, if needed)
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getAssignedAt() {
-        return assignedAt;
-    }
-
-    public void setAssignedAt(LocalDateTime assignedAt) {
-        this.assignedAt = assignedAt;
-    }
+    public LocalDateTime getAssignedAt() { return assignedAt; }
+    public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }
 }
 
