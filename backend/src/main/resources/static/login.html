@@ -108,7 +108,7 @@
   </header>
   <main>
     <h2>Log in to your account</h2>
-    <form action="#" method="POST">
+    <form id="loginForm" onsubmit="handleLogin(event)">
       <label for="email">Email address</label>
       <input type="email" id="email" name="email" placeholder="you@example.com" required />
       <label for="password">Password</label>
@@ -119,5 +119,36 @@
       Don't have an account? <a href="signup.html">Sign up here</a>
     </div>
   </main>
+  <script>
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const loginData = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+    };
+
+    fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Login failed');
+        }
+        return response.json();
+    })
+    .then(data => {
+        localStorage.setItem('user', JSON.stringify(data));
+        window.location.href = '/dashboard.html';
+    })
+    .catch(error => {
+        alert('Login failed: ' + error.message);
+    });
+}
+</script>
 </body>
 </html>
