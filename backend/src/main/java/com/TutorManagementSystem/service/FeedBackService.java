@@ -1,6 +1,6 @@
 package com.TutorManagementSystem.service;
 
-import com.TutorManagementSystem.model.Feedback;
+import com.TutorManagementSystem.model.RatingFeedback;
 import com.TutorManagementSystem.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class FeedBackService {
      *  - Stamps it with the current time
      *  - Saves it to the DB
      */
-    public Feedback submitFeedback(Feedback feedback) {
+    public RatingFeedback submitFeedback(RatingFeedback feedback) {
         feedback.setSubmittedAt(LocalDateTime.now());
         return repo.save(feedback);
     }
@@ -25,7 +25,7 @@ public class FeedBackService {
     /**
      * Retrieves all feedback entries linked to the given tutor.
      */
-    public List<Feedback> getFeedbackByTutorId(Long tutorId) {
+    public List<RatingFeedback> getFeedbackByTutorId(Long tutorId) {
         return repo.findByJob_TutorId(tutorId);
     }
 }

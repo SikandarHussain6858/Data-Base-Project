@@ -13,7 +13,7 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name = "request_id")
-    private TutoringRequest request;
+    private StudentRequest request;
 
     @Column(name = "tutor_id")
     private Long tutorId;
@@ -36,8 +36,8 @@ public class Job {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public TutoringRequest getRequest() { return request; }
-    public void setRequest(TutoringRequest request) { this.request = request; }
+    public StudentRequest getRequest() { return request; }
+    public void setRequest(StudentRequest request) { this.request = request; }
     
     public Long getTutorId() { return tutorId; }
     public void setTutorId(Long tutorId) { this.tutorId = tutorId; }

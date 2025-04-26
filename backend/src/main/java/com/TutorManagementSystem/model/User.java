@@ -1,10 +1,14 @@
 package com.TutorManagementSystem.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "`user`")  // Use backticks as user is a reserved word in MySQL
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +27,14 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @Column(unique = true, nullable = false)
+    private LocalDateTime createdAt;
+
     // Getters and setters
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

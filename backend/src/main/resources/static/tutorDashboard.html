@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutor Dashboard - MyTutor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: #fdf7f2;
+      color: #222;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 28px;
+      color: #00bfa5;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #00bfa5;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #555;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+    button {
+      background: #00bfa5;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #009e8f;
+    }
+    .list {
+      margin-top: 10px;
+    }
+    .list-item {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 8px;
+    }
+    .requests {
+      margin-top: 20px;
+    }
+    .request-item {
+      background: #fff3e6;
+      border: 1px solid #ffd699;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyTutor - Tutor Dashboard</div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>Manage Availability & Subjects</h2>
+
+      <label for="slot">Available Slot</label>
+      <input type="text" id="slot" placeholder="e.g., Monday 2pm-4pm" />
+      <button onclick="addSlot()">Add Slot</button>
+
+      <div class="list" id="slotList"></div>
+
+      <label for="subject">Subject You Teach</label>
+      <input type="text" id="subject" placeholder="e.g., Mathematics" />
+      <button onclick="addSubject()">Add Subject</button>
+
+      <div class="list" id="subjectList"></div>
+    </div>
+
+    <div class="card">
+      <h2>Student Requests</h2>
+      <div id="requestsContainer" class="requests">
+        <!-- Student requests will appear here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slotList = document.getElementById('slotList');
+    const subjectList = document.getElementById('subjectList');
+    const requestsContainer = document.getElementById('requestsContainer');
+
+    function addSlot() {
+      const slotInput = document.getElementById('slot');
+      const slot = slotInput.value.trim();
+      if (slot) {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.textContent = slot;
+        slotList.appendChild(item);
+
+        // Send to backend (Optional if backend ready)
+        fetch('/api/tutor/add-availability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slot })
+        }).catch(err => console.error('Error adding slot:', err));
+
+        slotInput.value = '';
+      }
+    }
+
+    function addSubject() {
+      const subjectInput = document.getElementById('subject');
+      const subject = subjectInput.value.trim();
+      if (subject) {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.textContent = subject;
+        subjectList.appendChild(item);
+
+        fetch('/api/tutor/add-subject', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject })
+        }).catch(err => console.error('Error adding subject:', err));
+
+        subjectInput.value = '';
+      }
+    }
+
+    function loadStudentRequests() {
+      fetch('/api/tutor/requests')
+        .then(response => response.json())
+        .then(data => {
+          requestsContainer.innerHTML = '';
+          data.forEach(req => {
+            const item = document.createElement('div');
+            item.className = 'request-item';
+            item.innerHTML = `<strong>Subject:</strong> ${req.subject}<br>
+                              <strong>Description:</strong> ${req.description}<br>
+                              <strong>Status:</strong> ${req.status}`;
+            requestsContainer.appendChild(item);
+          });
+        })
+        .catch(error => console.error('Error loading student requests:', error));
+    }
+
+    // Load student requests on page load
+    window.onload = loadStudentRequests;
+  </script>
+</body>
+</html>

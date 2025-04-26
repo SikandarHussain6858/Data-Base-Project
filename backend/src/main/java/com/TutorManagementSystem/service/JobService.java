@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.TutorManagementSystem.model.Job;
 import com.TutorManagementSystem.repository.JobRepository;
-import com.TutorManagementSystem.repository.TutoringRequestRepository;
+import com.TutorManagementSystem.repository.StudentRequestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ public class JobService {
     private JobRepository jobRepo;
 
     @Autowired
-    private TutoringRequestRepository requestRepo;
+    private StudentRequestRepository requestRepo;
 
     /**
      * Assigns a tutor to an existing request:
@@ -24,7 +24,7 @@ public class JobService {
      */
     public Job assignJob(Job job) {
         // Mark the linked request as assigned
-        requestRepo.findById(job.getRequest().getId()).ifPresent(req -> {
+        requestRepo.findById(job.getRequest().getRequest_id()).ifPresent(req -> {
             req.setStatus("ASSIGNED");
             requestRepo.save(req);
         });

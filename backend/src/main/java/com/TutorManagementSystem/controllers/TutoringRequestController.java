@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.TutorManagementSystem.model.Feedback;
+import com.TutorManagementSystem.model.RatingFeedback;
 import com.TutorManagementSystem.service.FeedBackService;
 import com.TutorManagementSystem.service.TutoringRequestService;
-import com.TutorManagementSystem.model.TutoringRequest;
+import com.TutorManagementSystem.model.StudentRequest;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class TutoringRequestController {
 
     // POST /student-request → Add a new tutoring request
     @PostMapping("/student-request")
-    public ResponseEntity<TutoringRequest> createRequest(@RequestBody TutoringRequest request) {
+    public ResponseEntity<StudentRequest> createRequest(@RequestBody StudentRequest request) {
         return ResponseEntity.ok(requestService.saveRequest(request));
     }
 

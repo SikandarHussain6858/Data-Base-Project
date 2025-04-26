@@ -1,8 +1,8 @@
 package com.TutorManagementSystem.service;
 
 
-import com.TutorManagementSystem.model.TutoringRequest;
-import com.TutorManagementSystem.repository.TutoringRequestRepository;
+import com.TutorManagementSystem.model.StudentRequest;
+import com.TutorManagementSystem.repository.StudentRequestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Service
 public class TutoringRequestService {
     @Autowired
-    private TutoringRequestRepository repo;
+    private StudentRequestRepository repo;
 
     /**
      * Creates a new tutoring request:
@@ -18,7 +18,7 @@ public class TutoringRequestService {
      *  - Records creation timestamp
      *  - Saves to DB
      */
-    public TutoringRequest saveRequest(TutoringRequest request) {
+    public StudentRequest saveRequest(StudentRequest request) {
         request.setStatus("PENDING");
         request.setCreatedAt(LocalDateTime.now());
         return repo.save(request);
@@ -30,7 +30,7 @@ public class TutoringRequestService {
      */
     public String getStatusById(Long id) {
         return repo.findById(id)
-            .map(TutoringRequest::getStatus)
+            .map(StudentRequest::getStatus)
             .orElse("NOT_FOUND");
     }
 }

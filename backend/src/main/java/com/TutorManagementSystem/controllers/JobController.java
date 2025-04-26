@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.TutorManagementSystem.model.Feedback;
+import com.TutorManagementSystem.model.RatingFeedback;
 import com.TutorManagementSystem.service.FeedBackService;
 import com.TutorManagementSystem.service.JobService;
 import com.TutorManagementSystem.model.Job;
