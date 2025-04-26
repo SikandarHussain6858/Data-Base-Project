@@ -199,11 +199,13 @@
     }
 
     const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        password: password,
-        role: document.querySelector('input[name="role"]:checked').value.toUpperCase() // Convert to uppercase
-    };
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      password: password,
+      confirmPassword: confirmPassword,  // <-- ADD THIS LINE
+      role: document.querySelector('input[name="role"]:checked').value.toUpperCase()
+  };
+  
 
     console.log('Sending registration data:', formData); // Debug log
 

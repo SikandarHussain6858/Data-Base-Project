@@ -7,6 +7,7 @@ import com.TutorManagementSystem.model.User;
 import com.TutorManagementSystem.service.UserService;
 import com.TutorManagementSystem.dto.LoginRequest;
 import com.TutorManagementSystem.dto.LoginResponse;
+import com.TutorManagementSystem.dto.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -15,15 +16,18 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        try {
-            User registeredUser = userService.register(user);
-            return ResponseEntity.ok(registeredUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+    try {
+        User registeredUser = userService.register(registerRequest);
+        return ResponseEntity.ok(registeredUser);
+    } catch (RuntimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
+}
+
+
     
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
