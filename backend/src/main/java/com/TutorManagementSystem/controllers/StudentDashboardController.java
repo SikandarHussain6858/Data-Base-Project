@@ -32,7 +32,7 @@ public class StudentDashboardController {
         List<Long> subjectIds = assignedRequests.stream()
                 .map(req -> {
                     try {
-                        return req.getSubjectId();
+                        return Long.parseLong(req.getSubjectId());
                     } catch (NumberFormatException e) {
                         return null;
                     }
