@@ -22,6 +22,9 @@ public interface StudentRequestRepository extends JpaRepository<StudentRequest, 
     // Find all requests by student id
     List<StudentRequest> findByStudentId(Long studentId);
 
+    // Find all requests by student id and status
+    List<StudentRequest> findByStudentIdAndStatus(Long studentId, String status);
+
 
 }
 

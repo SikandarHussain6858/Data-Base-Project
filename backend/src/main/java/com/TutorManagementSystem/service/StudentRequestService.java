@@ -51,4 +51,9 @@ public class StudentRequestService {
     public void deleteRequest(Long id) {
         studentRequestRepository.deleteById(id);
     }
+
+    // Get assigned requests for a student
+    public List<StudentRequest> getAssignedRequestsByStudentId(Long studentId) {
+        return studentRequestRepository.findByStudentIdAndStatus(studentId, "ASSIGNED");
+    }
 }
