@@ -1,5 +1,6 @@
 package com.TutorManagementSystem.model;
 
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +11,9 @@ public class Subject {
 
     @Column(unique = true, nullable = false)
     private Long subject_id;
+
+    @OneToMany(mappedBy = "subject")
+    private List<TutorSubject> tutorSubjects;
     
     @Column(unique = true, nullable = false)
     private String subjectName;

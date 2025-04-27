@@ -7,6 +7,7 @@ import com.TutorManagementSystem.model.TutorSubject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TutorRepository extends JpaRepository<Tutor, Long> {
-    List<TutorSubject> findByTutor_Id(Long tutorId);
-    
+
+;
+
 }

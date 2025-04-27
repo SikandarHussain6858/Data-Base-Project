@@ -27,7 +27,7 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     // Getters and setters

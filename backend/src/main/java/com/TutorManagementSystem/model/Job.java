@@ -9,7 +9,7 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id", unique = true)
-    private Long id;
+    private Long jobId;
 
     @ManyToOne
     @JoinColumn(name = "request_id")
@@ -33,8 +33,8 @@ public class Job {
     private LocalDateTime assignedAt;
 
     // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getJobId() { return jobId; }
+    public void setJobId(Long jobId) { this.jobId = jobId; }
     
     public StudentRequest getRequest() { return request; }
     public void setRequest(StudentRequest request) { this.request = request; }

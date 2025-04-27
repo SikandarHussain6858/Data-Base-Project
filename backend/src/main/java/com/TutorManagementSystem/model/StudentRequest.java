@@ -8,26 +8,29 @@ import java.time.LocalDateTime;
 public class StudentRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long request_id;
+    @Column(name = "request_id", unique = true, nullable = false)
+    private Long requestId;
+
 
     @Column(name = "student_id")
 private Long studentId;
 
 @Column(name = "subject_id")
-private String subjectId;
+private Long subjectId;
 
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String status;  // "PENDING" or "ASSIGNED"
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     // Constructors, getters, setters omitted for brevity
+
+    public StudentRequest() {}
 
     
     public String getStatus() {
@@ -47,13 +50,11 @@ private String subjectId;
     }
 
     // Getter for id
-    public Long getRequest_id() {
-        return request_id;
+    public Long getRequestId() {
+        return requestId;
     }
-
-    // Setter for id (optional, if needed)
-    public void setRequest_id(Long request_id) {
-        this.request_id = request_id;
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
     }
 
     public Long getStudentId() {
@@ -64,11 +65,11 @@ private String subjectId;
         this.studentId = studentId;
     }
 
-    public String getSubjectId() {
+    public Long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(String subjectId) {
+    public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
     }
 

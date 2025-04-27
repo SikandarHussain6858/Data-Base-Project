@@ -24,7 +24,7 @@ public class JobService {
      */
     public Job assignJob(Job job) {
         // Mark the linked request as assigned
-        requestRepo.findById(job.getRequest().getRequest_id()).ifPresent(req -> {
+        requestRepo.findById(job.getRequest().getRequestId()).ifPresent(req -> {
             req.setStatus("ASSIGNED");
             requestRepo.save(req);
         });

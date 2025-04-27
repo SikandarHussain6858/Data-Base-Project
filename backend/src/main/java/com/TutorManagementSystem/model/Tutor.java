@@ -1,20 +1,21 @@
 package com.TutorManagementSystem.model;
 
+import java.util.List;
 import jakarta.persistence.*;
 import java.util.Set;
 import com.TutorManagementSystem.model.Subject;
 
 @Entity
 @Table(name = "tutor")
-public class Tutor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Tutor extends User {
     
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
     
+    @OneToMany(mappedBy = "tutor")
+    private List<TutorSubject> tutorSubjects;
+
     private String specialization;
     private String qualifications;
 
@@ -24,12 +25,8 @@ public class Tutor {
         joinColumns = @JoinColumn(name = "tutor_id"),
         inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
-    private Set<Subject> subjects;
 
     // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
     
@@ -39,6 +36,6 @@ public class Tutor {
     public String getQualifications() { return qualifications; }
     public void setQualifications(String qualifications) { this.qualifications = qualifications; }
     
-    public Set<Subject> getSubjects() { return subjects; }
-    public void setSubjects(Set<Subject> subjects) { this.subjects = subjects; }
+    public List<TutorSubject> getTutorSubjects() { return tutorSubjects; }
+    public void setTutorSubjects(List<TutorSubject> tutorSubjects) { this.tutorSubjects = tutorSubjects; }
 }

@@ -48,7 +48,7 @@ public class TutorController {
         List<StudentRequest> allRequests = studentRequestService.getAllRequests();
         return allRequests.stream()
                 .filter(request -> 
-                    subjects.contains(request.getSubjectId().toLowerCase()) 
+                    subjects.contains(request.getSubjectId()) 
                     && "PENDING".equalsIgnoreCase(request.getStatus())
                 )
                 .toList();

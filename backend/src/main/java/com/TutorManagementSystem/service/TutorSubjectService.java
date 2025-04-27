@@ -16,7 +16,7 @@ public class TutorSubjectService {
     private TutorSubjectRepository tutorSubjectRepository;
 
     public List<Subject> getSubjectsByTutorId(Long tutorId) {
-        List<TutorSubject> tutorSubjects = tutorSubjectRepository.findByTutor_TutorId(tutorId);
+        List<TutorSubject> tutorSubjects = tutorSubjectRepository.findByTutor_Id(tutorId);
 
         List<Subject> subjects = new ArrayList<>();
         for (TutorSubject ts : tutorSubjects) {

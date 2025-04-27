@@ -24,7 +24,7 @@ public class FeedbackController {
 
     // GET /feedback/tutor/{tutorId} → Return feedback with tutor profile (optional)
     @GetMapping("/feedback/tutor/{tutorId}")
-    public ResponseEntity<List<RatingFeedback>> getFeedbackByTutor(@PathVariable Long tutorId) {
-        return ResponseEntity.ok(feedbackService.getFeedbackByTutorId(tutorId));
+    public ResponseEntity<List<RatingFeedback>> ggetFeedbackByJobId(@PathVariable Long jobId) {
+        return ResponseEntity.ok(feedbackService.getFeedbackByJobId(jobId));
     }
 }

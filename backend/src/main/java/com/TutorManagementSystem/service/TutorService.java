@@ -27,7 +27,8 @@ public class TutorService {
 
     // Get all subjects for a tutor
     public List<SubjectDTO> getSubjectsForTutor(Long tutorId) {
-        return subjectRepository.findByTutorId(tutorId)
+        return subjectRepository.findSubjectsByTutorId(tutorId)
+
                 .stream()
                 .map(subject -> new SubjectDTO(subject.getSubject_id(), subject.getSubjectName(), subject.getDescription()))
                 .collect(Collectors.toList());
@@ -43,19 +44,20 @@ public class TutorService {
 
     // Get all student requests for a tutor
     public List<StudentRequestDTO> getRequestsForTutor(Long tutorId) {
-        // Fetch all pending requests
-        List<StudentRequest> requests = studentRequestRepository.findByStatus("PENDING");
+        List<StudentRequest> requests = studentRequestRepository.findPendingRequests();
+
     
         return requests.stream()
     .map(request -> {
         User student = userRepository.findById(request.getStudentId())
             .orElse(new User());
-            Subject subject = subjectRepository.findById(Long.parseLong(request.getSubjectId()))
+        Subject subject = subjectRepository.findById(request.getSubjectId())
             .orElse(new Subject());
+
         
 
         return new StudentRequestDTO(
-            request.getRequest_id(),
+            request.getRequestId(),
             student.getName(), // Use getName() from User
             subject.getSubjectName(),
             request.getStatus()

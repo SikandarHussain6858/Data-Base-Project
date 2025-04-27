@@ -3,7 +3,9 @@ package com.TutorManagementSystem.service;
 import com.TutorManagementSystem.model.RatingFeedback;
 import com.TutorManagementSystem.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
+import com.TutorManagementSystem.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.TutorManagementSystem.model.Job;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +27,8 @@ public class FeedBackService {
     /**
      * Retrieves all feedback entries linked to the given tutor.
      */
-    public List<RatingFeedback> getFeedbackByTutorId(Long tutorId) {
-        return repo.findByJob_TutorId(tutorId);
+    public List<RatingFeedback> getFeedbackByJobId(Long jobId) {
+        return repo.findByJobJobId(jobId);
     }
+    
 }
