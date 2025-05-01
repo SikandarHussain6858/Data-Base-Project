@@ -1,58 +1,36 @@
 package com.TutorManagementSystem.model;
 
 import jakarta.persistence.*;
+import java.time.LocalTime;
 
 @Entity
+@Table(name = "availability")
 public class Availability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long availability_id;
-
-    @Column(nullable = false)
-    private String dayOfWeek;
-
-    @Column(nullable = false)
-    private String startTime;
-
-    @Column(nullable = false)
-    private String endTime;
+    private Long availabilityId;
 
     @ManyToOne
     @JoinColumn(name = "tutor_id")
-    private User tutor;
+    private Tutor tutor;
 
-    // Getters and setters...
-    public Long getAvailability_id() {
-        return availability_id;
-    }
-    public void setAvailability_id(Long availability_id) {
-        this.availability_id = availability_id;
-    }
+    private String dayOfWeek;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
+    // Getters and setters
+    public Long getAvailabilityId() { return availabilityId; }
+    public void setAvailabilityId(Long availabilityId) { this.availabilityId = availabilityId; }
 
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
+    public Tutor getTutor() { return tutor; }
+    public void setTutor(Tutor tutor) { this.tutor = tutor; }
 
-    public String getStartTime() {
-        return startTime;
-    }
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-    public String getEndTime() {
-        return endTime;
-    }
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-    public User getTutor() {
-        return tutor;
-    }
-    public void setTutor(User tutor) {
-        this.tutor = tutor;
-    }
+    public String getDayOfWeek() { return dayOfWeek; }
+    public void setDayOfWeek(String dayOfWeek) { this.dayOfWeek = dayOfWeek; }
+
+    public LocalTime getStartTime() { return startTime; }
+    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
+
+    public LocalTime getEndTime() { return endTime; }
+    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
 }

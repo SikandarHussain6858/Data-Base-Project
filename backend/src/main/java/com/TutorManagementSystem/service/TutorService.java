@@ -1,11 +1,11 @@
 package com.TutorManagementSystem.service;
 
 import com.TutorManagementSystem.dto.AvailabilityDTO;
-import com.TutorManagementSystem.service.StudentRequestService;
 import com.TutorManagementSystem.dto.SubjectDTO;
 import com.TutorManagementSystem.dto.StudentRequestDTO;
 import com.TutorManagementSystem.model.*;
 import com.TutorManagementSystem.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,13 @@ public class TutorService {
     private final StudentRequestRepository studentRequestRepository;
     private final UserRepository userRepository;
 
-    public TutorService(SubjectRepository subjectRepository, AvailabilityRepository availabilityRepository, StudentRequestRepository studentRequestRepository, UserRepository userRepository) {
+    @Autowired
+    private TutorRepository tutorRepository;
+
+    public TutorService(SubjectRepository subjectRepository, 
+                       AvailabilityRepository availabilityRepository, 
+                       StudentRequestRepository studentRequestRepository, 
+                       UserRepository userRepository) {
         this.subjectRepository = subjectRepository;
         this.availabilityRepository = availabilityRepository;
         this.studentRequestRepository = studentRequestRepository;
@@ -28,9 +34,12 @@ public class TutorService {
     // Get all subjects for a tutor
     public List<SubjectDTO> getSubjectsForTutor(Long tutorId) {
         return subjectRepository.findSubjectsByTutorId(tutorId)
-
                 .stream()
-                .map(subject -> new SubjectDTO(subject.getSubject_id(), subject.getSubjectName(), subject.getDescription()))
+                .map(subject -> new SubjectDTO(
+                    subject.getSubjectId(),  // Changed from getSubject_id
+                    subject.getName(),       // Changed from getSubjectName
+                    subject.getDescription()
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -38,33 +47,45 @@ public class TutorService {
     public List<AvailabilityDTO> getAvailabilityForTutor(Long tutorId) {
         return availabilityRepository.findByTutorId(tutorId)
                 .stream()
-                .map(avail -> new AvailabilityDTO(avail.getAvailability_id(), avail.getDayOfWeek(), avail.getStartTime(), avail.getEndTime()))
+                .map(avail -> new AvailabilityDTO(
+                    avail.getAvailabilityId(),  // Make sure these match your Availability entity
+                    avail.getDayOfWeek(),
+                    avail.getStartTime(),
+                    avail.getEndTime()
+                ))
                 .collect(Collectors.toList());
     }
 
     // Get all student requests for a tutor
     public List<StudentRequestDTO> getRequestsForTutor(Long tutorId) {
         List<StudentRequest> requests = studentRequestRepository.findPendingRequests();
-
-    
         return requests.stream()
-    .map(request -> {
-        User student = userRepository.findById(request.getStudentId())
-            .orElse(new User());
-        Subject subject = subjectRepository.findById(request.getSubjectId())
-            .orElse(new Subject());
-
-        
-
-        return new StudentRequestDTO(
-            request.getRequestId(),
-            student.getName(), // Use getName() from User
-            subject.getSubjectName(),
-            request.getStatus()
-        );
-    })
-    .collect(Collectors.toList());
-
+                .map(request -> {
+                    User student = userRepository.findById(request.getStudentId())
+                            .orElse(new User());
+                    Subject subject = subjectRepository.findById(request.getSubjectId())
+                            .orElse(new Subject());
+                    return new StudentRequestDTO(
+                            request.getRequestId(),
+                            student.getName(),
+                            subject.getName(),  // Changed from getSubjectName
+                            request.getStatus()
+                    );
+                })
+                .collect(Collectors.toList());
     }
-    
+
+    // Find tutors by subject
+    public List<Tutor> findTutorsBySubject(Subject subject) {
+        return tutorRepository.findBySubjectsId(subject.getSubjectId());
+    }
+
+    // Get subjects taught by a tutor
+    public List<Subject> getTutorSubjects(Long tutorId) {
+        return tutorRepository.findById(tutorId)
+                .map(tutor -> tutor.getTutorSubjects().stream()
+                        .map(TutorSubject::getSubject)
+                        .toList())
+                .orElseThrow(() -> new RuntimeException("Tutor not found"));
+    }
 }

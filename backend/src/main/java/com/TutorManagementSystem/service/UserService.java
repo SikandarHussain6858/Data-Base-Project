@@ -18,10 +18,6 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        if (user == null) {
-            throw new RuntimeException("Invalid email or password");
-        }
-
         // Check if password matches
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Invalid email or password");
@@ -37,26 +33,29 @@ public class UserService {
         return response;
     }
 
-    // Existing methods in UserService
-
     public User findById(Long id) {
-    // Implement the logic to find a user by ID
-    // For example, if you are using a repository:
-    return userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
     }
 
-    
     public User register(RegisterRequest registerRequest) {
         // Create a new User
         User user = new User();
         user.setName(registerRequest.getName());
         user.setEmail(registerRequest.getEmail());
-        user.setPassword(registerRequest.getPassword()); // Normally you should hash this!
+        user.setPassword(registerRequest.getPassword());
         user.setRole(registerRequest.getRole());
-        user.setCreatedAt(java.time.LocalDateTime.now()); // Assuming you have createdAt in User model
+        user.setCreatedAt(java.time.LocalDateTime.now());
         
-        // Save User
         return userRepository.save(user);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 }

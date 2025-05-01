@@ -123,11 +123,11 @@
       <fieldset style="margin-bottom: 20px; border: none; padding: 0;">
         <legend style="font-weight: 600; margin-bottom: 8px; color: #555;">I am a</legend>
         <label>
-          <input type="radio" name="role" value="student" required />
+          <input type="radio" name="role" value="STUDENT" required checked />
           Student
         </label>
         <label style="margin-left: 20px;">
-          <input type="radio" name="role" value="tutor" required />
+          <input type="radio" name="role" value="TUTOR" required />
           Tutor
         </label>
       </fieldset>
@@ -186,10 +186,9 @@
       });
     });
 
-    document.getElementById('signup-form').addEventListener('submit', function(event) {
+    document.getElementById('signup-form').addEventListener('submit', async function(event) {
     event.preventDefault();
     
-    // First, check if passwords match
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
     
@@ -198,40 +197,40 @@
         return;
     }
 
+    // Add console.log to debug the form data
+    console.log('Password:', password);
+
     const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      password: password,
-      confirmPassword: confirmPassword,  // <-- ADD THIS LINE
-      role: document.querySelector('input[name="role"]:checked').value.toUpperCase()
-  };
-  
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: password,
+        role: document.querySelector('input[name="role"]:checked').value
+    };
 
-    console.log('Sending registration data:', formData); // Debug log
+    // Add console.log to debug the request data
+    console.log('Form Data:', formData);
 
-    fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
+    try {
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',  // Add this
+            headers: {       // Add this
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+
         if (!response.ok) {
-            return response.text().then(text => {
-                throw new Error(text || 'Registration failed');
-            });
+            const errorText = await response.text();
+            throw new Error(errorText);
         }
-        return response.json();
-    })
-    .then(data => {
+
+        const data = await response.json();
         alert('Registration successful!');
         window.location.href = '/login.html';
-    })
-    .catch(error => {
+    } catch (error) {
         alert('Registration failed: ' + error.message);
-        console.error('Registration error:', error); // Debug log
-    });
+        console.error('Registration error:', error);
+    }
 });
   </script>
 </body>

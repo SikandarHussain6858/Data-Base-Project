@@ -39,6 +39,37 @@
             color: #28a745;
             text-decoration: underline;
         }
+        .subject-selector {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .subject-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .tutor-list {
+            margin-top: 20px;
+        }
+        .tutor-card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tutor-card h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .tutor-card p {
+            color: #666;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +91,19 @@
         <section>
             <h2>Other Features</h2>
             <p>Additional student features can be added here.</p>
+        </section>
+        <section class="subject-selector">
+            <h2>Select Subject</h2>
+            <select id="subjectSelect" onchange="loadTutors()">
+                <option value="">Select a subject</option>
+            </select>
+        </section>
+
+        <section class="tutor-list">
+            <h2>Available Tutors</h2>
+            <div id="tutorsList">
+                <!-- Tutors will be loaded here -->
+            </div>
         </section>
     </main>
 
@@ -88,6 +132,141 @@
         }
 
         fetchCurrentSubjects();
+
+        // Load subjects when page loads
+        async function loadSubjects() {
+            try {
+                const response = await fetch('/api/subjects');
+                const subjects = await response.json();
+                const select = document.getElementById('subjectSelect');
+                
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject.id;
+                    option.textContent = subject.name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading subjects:', error);
+            }
+        }
+
+        // Load tutors when subject is selected
+        async function loadTutors() {
+            const subjectId = document.getElementById('subjectSelect').value;
+            if (!subjectId) {
+                document.getElementById('tutorsList').innerHTML = '<p>Please select a subject</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/subjects/${subjectId}/tutors`);
+                const tutors = await response.json();
+                const tutorsList = document.getElementById('tutorsList');
+                tutorsList.innerHTML = '';
+
+                if (tutors.length === 0) {
+                    tutorsList.innerHTML = '<p>No tutors available for this subject</p>';
+                    return;
+                }
+
+                tutors.forEach(tutor => {
+                    const tutorCard = document.createElement('div');
+                    tutorCard.className = 'tutor-card';
+                    tutorCard.innerHTML = `
+                        <h3>${tutor.name}</h3>
+                        <p><strong>Qualifications:</strong> ${tutor.qualifications}</p>
+                        <p><strong>Specialization:</strong> ${tutor.specialization}</p>
+                        <button onclick="requestTutor(${tutor.id})">Request Tutor</button>
+                    `;
+                    tutorsList.appendChild(tutorCard);
+                });
+            } catch (error) {
+                console.error('Error loading tutors:', error);
+            }
+        }
+
+        // Function to handle tutor request
+        async function requestTutor(tutorId) {
+            const subjectId = document.getElementById('subjectSelect').value;
+            try {
+                const response = await fetch('/api/student-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tutorId: tutorId,
+                        subjectId: subjectId,
+                        studentId: getCurrentUserId() // Implement this function
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('Request sent successfully!');
+                } else {
+                    throw new Error('Failed to send request');
+                }
+            } catch (error) {
+                alert('Error sending request: ' + error.message);
+            }
+        }
+
+        // Load subjects when page loads
+        loadSubjects();
+
+        async function searchTutors() {
+            const subject = document.getElementById('subjectSelect').value;
+            if (!subject) return;
+
+            try {
+                const response = await fetch(`/api/tutors?subject=${encodeURIComponent(subject)}`);
+                const tutors = await response.json();
+                
+                const tutorsList = document.getElementById('tutorsList');
+                tutorsList.innerHTML = '';
+                
+                tutors.forEach(tutor => {
+                    const tutorCard = document.createElement('div');
+                    tutorCard.className = 'tutor-card';
+                    tutorCard.innerHTML = `
+                        <h3>${tutor.name}</h3>
+                        <p><strong>Qualifications:</strong> ${tutor.qualifications}</p>
+                        <p><strong>Specialization:</strong> ${tutor.specialization}</p>
+                        <button onclick="viewTutorProfile(${tutor.id})">View Profile</button>
+                    `;
+                    tutorsList.appendChild(tutorCard);
+                });
+            } catch (error) {
+                console.error('Error searching tutors:', error);
+            }
+        }
+
+        async function viewTutorProfile(tutorId) {
+            try {
+                const response = await fetch(`/api/tutor/${tutorId}`);
+                const profile = await response.json();
+                
+                // Display tutor profile in a modal or new page
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <h2>${profile.tutor.name}</h2>
+                        <h3>Subjects:</h3>
+                        <ul>${profile.subjects.map(s => `<li>${s.name}</li>`).join('')}</ul>
+                        <h3>Availability:</h3>
+                        <ul>${profile.availability.map(a => 
+                            `<li>${a.dayOfWeek}: ${a.startTime} - ${a.endTime}</li>`
+                        ).join('')}</ul>
+                        <button onclick="this.parentElement.parentElement.remove()">Close</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            } catch (error) {
+                console.error('Error loading tutor profile:', error);
+            }
+        }
     </script>
 </body>
 </html>

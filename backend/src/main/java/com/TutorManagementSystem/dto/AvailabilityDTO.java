@@ -1,46 +1,31 @@
 package com.TutorManagementSystem.dto;
 
+import java.time.LocalTime;
+
 public class AvailabilityDTO {
-    private Long availability_id;
+    private Long availabilityId;
     private String dayOfWeek;
-    private String startTime;
-    private String endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
-
-    // Constructors
     public AvailabilityDTO() {}
-    public AvailabilityDTO(Long availability_id, String dayOfWeek, String startTime, String endTime) {
-        this.availability_id = availability_id;
+    public AvailabilityDTO(Long availabilityId, String dayOfWeek, LocalTime startTime, LocalTime endTime) {
+        this.availabilityId = availabilityId;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
     // Getters and setters
-    public Long getAvailability_id() {
-        return availability_id;
-    }
-    public void setAvailability_id(Long availability_id) {
-        this.availability_id = availability_id;
-    }
+    public Long getAvailabilityId() { return availabilityId; }
+    public void setAvailabilityId(Long availabilityId) { this.availabilityId = availabilityId; }
 
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-    public String getStartTime() {
-        return startTime;
-    }
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
+    public String getDayOfWeek() { return dayOfWeek; }
+    public void setDayOfWeek(String dayOfWeek) { this.dayOfWeek = dayOfWeek; }
 
-    public String getEndTime() {
-        return endTime;
-    }
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
+    public LocalTime getStartTime() { return startTime; }
+    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
 
+    public LocalTime getEndTime() { return endTime; }
+    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
 }

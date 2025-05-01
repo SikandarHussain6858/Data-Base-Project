@@ -2,11 +2,14 @@ package com.TutorManagementSystem.project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import com.TutorManagementSystem.TutorManagementSystemApplication;
 
-@SpringBootTest
-class ProjectApplicationTests {
-
+@SpringBootTest(classes = TutorManagementSystemApplication.class)
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class ProjectApplicationTests {
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+        // This test verifies that the Spring context loads successfully
     }
 }
